@@ -11,7 +11,6 @@ namespace TreeLogger.Enums
         Information = 1,
         Error = 2,
         Warning = 0,
-        Exception = 3,
-        Success = 4
+        Success = 3
     }
 }

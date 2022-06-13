@@ -206,6 +206,7 @@ namespace TreeLogger
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "TreeLoggerView";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.TreeLoggerView_Load);
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel3.ResumeLayout(false);

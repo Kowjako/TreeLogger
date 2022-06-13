@@ -57,5 +57,10 @@ namespace TreeLogger
             cts.Cancel();
             viewModel.HandleCloseOperation();
         }
+
+        private void TreeLoggerView_Load(object sender, EventArgs e)
+        {
+            viewModel.HandleDoOperation();
+        }
     }
 }

@@ -40,11 +40,6 @@ namespace TreeLogger.ViewModels
             _view = view;
             _viewTreeView = _view.SubView;
             _view.SetViewModel(this);
-            Task.Run(() =>
-            {
-                HandleBeforeOperation();
-                HandleDoOperation();
-            }, _view.CancellationToken);
         }
 
         #region Run methods
@@ -92,7 +87,7 @@ namespace TreeLogger.ViewModels
             {
                 _viewTreeView.Invoke(new MethodInvoker(() =>
                 {
-                    _currentRootNode.Nodes.Add(new OperationTreeNode(contract));
+                    _currentRootNode.Nodes.Add(new OperationTreeNode(contract));                   
                     _currentRootNode.ExpandAll();
                 }));
             }
@@ -100,7 +95,13 @@ namespace TreeLogger.ViewModels
 
         public void HandleDoOperation()
         {
-            CoreOperation();
+            Thread.Sleep(100);
+            Task.Run(() =>
+            {
+                HandleBeforeOperation();
+                CoreOperation();
+                HandleSuccess();
+            }, _view.CancellationToken);
         }
 
         public void HandleBeforeOperation()
@@ -111,6 +112,11 @@ namespace TreeLogger.ViewModels
                 _currentRootNode = new OperationRootNode("Operacja rozpoczęta");
                 _viewTreeView.Nodes.Add(_currentRootNode);
             }));
+        }
+
+        public void HandleSuccess()
+        {
+            LogMessage("Operacja została ukończona", MessageSeverity.Success);
         }
 
         public void HandleCloseOperation()
