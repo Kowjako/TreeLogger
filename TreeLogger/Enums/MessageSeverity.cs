@@ -8,10 +8,10 @@ namespace TreeLogger.Enums
 {
     public enum MessageSeverity
     {
-        None = 0,
         Information = 1,
         Error = 2,
-        Warning = 3,
-        Exception = 4
+        Warning = 0,
+        Exception = 3,
+        Success = 4
     }
 }

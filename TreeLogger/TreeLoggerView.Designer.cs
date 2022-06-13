@@ -30,11 +30,6 @@ namespace TreeLogger
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Tworzenie tabeli Clinics", 1, 1);
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Tworzenie tabeli Employees", 1, 1);
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Process tworzenia bazy", 4, 4, new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2});
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TreeLoggerView));
             this.panel1 = new System.Windows.Forms.Panel();
             this.bExit = new System.Windows.Forms.Button();
@@ -70,7 +65,6 @@ namespace TreeLogger
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(626, 450);
             this.panel1.TabIndex = 0;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // bExit
             // 
@@ -81,7 +75,6 @@ namespace TreeLogger
             this.bExit.TabStop = false;
             this.bExit.Text = "Zamknij";
             this.bExit.UseVisualStyleBackColor = true;
-            this.bExit.Click += new System.EventHandler(this.bExit_Click);
             // 
             // bDisturb
             // 
@@ -110,23 +103,6 @@ namespace TreeLogger
             this.mainTreeView.ImageList = this.loggerImagesList;
             this.mainTreeView.Location = new System.Drawing.Point(0, 0);
             this.mainTreeView.Name = "mainTreeView";
-            treeNode1.ImageIndex = 1;
-            treeNode1.Name = "Node0";
-            treeNode1.SelectedImageIndex = 1;
-            treeNode1.Tag = "info";
-            treeNode1.Text = "Tworzenie tabeli Clinics";
-            treeNode2.ImageIndex = 1;
-            treeNode2.Name = "Node1";
-            treeNode2.SelectedImageIndex = 1;
-            treeNode2.Tag = "info";
-            treeNode2.Text = "Tworzenie tabeli Employees";
-            treeNode3.ImageIndex = 4;
-            treeNode3.Name = "Node0";
-            treeNode3.SelectedImageIndex = 4;
-            treeNode3.Tag = "mainRoot";
-            treeNode3.Text = "Process tworzenia bazy";
-            this.mainTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode3});
             this.mainTreeView.SelectedImageIndex = 0;
             this.mainTreeView.Size = new System.Drawing.Size(604, 331);
             this.mainTreeView.TabIndex = 0;
@@ -151,7 +127,6 @@ namespace TreeLogger
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(626, 40);
             this.panel3.TabIndex = 1;
-            this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // timeLabel
             // 
@@ -184,7 +159,6 @@ namespace TreeLogger
             this.headerPanel.Name = "headerPanel";
             this.headerPanel.Size = new System.Drawing.Size(626, 29);
             this.headerPanel.TabIndex = 0;
-            this.headerPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             this.headerPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.headerPanel_MouseDown);
             this.headerPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.headerPanel_MouseMove);
             // 
@@ -199,7 +173,6 @@ namespace TreeLogger
             this.bClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.bClose.TabIndex = 3;
             this.bClose.TabStop = false;
-            this.bClose.Click += new System.EventHandler(this.bClose_Click);
             // 
             // bMinimize
             // 
@@ -212,7 +185,6 @@ namespace TreeLogger
             this.bMinimize.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.bMinimize.TabIndex = 2;
             this.bMinimize.TabStop = false;
-            this.bMinimize.Click += new System.EventHandler(this.bMinimize_Click);
             // 
             // label1
             // 

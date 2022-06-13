@@ -46,6 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\MessageSeverity.cs" />
+    <Compile Include="Global\TreeLoggerRunner.cs" />
+    <Compile Include="Interfaces\ILogger.cs" />
+    <Compile Include="Interfaces\ILoggerView.cs" />
+    <Compile Include="Interfaces\ILoggerViewModel.cs" />
     <Compile Include="TreeLoggerView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -54,6 +59,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TreeNodes\OperationRootNode.cs" />
+    <Compile Include="TreeNodes\OperationTreeNode.cs" />
+    <Compile Include="ViewModels\TreeLoggerViewModel.cs" />
     <EmbeddedResource Include="TreeLoggerView.resx">
       <DependentUpon>TreeLoggerView.cs</DependentUpon>
     </EmbeddedResource>

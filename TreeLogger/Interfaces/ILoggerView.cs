@@ -14,6 +14,11 @@ namespace TreeLogger.Interfaces
     public interface ILoggerView : IDisposable
     {
         /// <summary>
+        /// Represents all logger nodes
+        /// </summary>
+        TreeNodeCollection Nodes { get; }
+
+        /// <summary>
         /// Used to attach view model to view of logger
         /// </summary>
         /// <param name="viewModel"></param>
@@ -22,7 +27,7 @@ namespace TreeLogger.Interfaces
         /// <summary>
         /// Property to get execution time
         /// </summary>
-        TimeSpan ElapsedTime { get; }
+        TimeSpan ElapsedTime { get; set; }
 
         /// <summary>
         /// Method to show logger window
@@ -34,5 +39,10 @@ namespace TreeLogger.Interfaces
         /// Token which used to async logger cancellation
         /// </summary>
         CancellationToken CancellationToken { get; }
+
+        /// <summary>
+        /// Represents treeview control for logger view
+        /// </summary>
+        TreeView SubView { get; }
     }
 }

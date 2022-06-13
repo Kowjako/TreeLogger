@@ -1,30 +1,40 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Threading = System.Threading;
 using System.Windows.Forms;
 using TreeLogger.Interfaces;
-using TreeLogger.ViewModel;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace TreeLogger
 {
-    public partial class TreeLoggerView : Form
+    public partial class TreeLoggerView : Form, ILoggerView
     {
         private Point lastPoint;
-        private ILoggerViewModel ViewModel;
-        private static DateTime LoggerStartTime;
+        private ILoggerViewModel viewModel;
+        private CancellationTokenSource cts;
+
         public TreeLoggerView()
         {
             InitializeComponent();
-            mainTreeView.Nodes.Clear();
-            ViewModel = new LoggerViewModel();
-            OnViewModelSet();
+            ElapsedTime = new TimeSpan();
+            cts = new CancellationTokenSource();
         }
+
+        public TimeSpan ElapsedTime { get; set; }
+
+        public CancellationToken CancellationToken => cts.Token;
+
+        public TreeNodeCollection Nodes => mainTreeView.Nodes;
+
+        public TreeView SubView => mainTreeView;
+
+        public void SetViewModel(ILoggerViewModel viewModel)
+        {
+            this.viewModel = viewModel;
+        }
+
+        #region Common behaviuor
 
         private void headerPanel_MouseDown(object sender, MouseEventArgs e)
         {
@@ -33,94 +43,19 @@ namespace TreeLogger
 
         private void headerPanel_MouseMove(object sender, MouseEventArgs e)
         {
-            if(e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Left)
             {
                 this.Left += e.X - lastPoint.X;
                 this.Top += e.Y - lastPoint.Y;
             }
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-            ControlPaint.DrawBorder(e.Graphics, ClientRectangle, Color.Black, ButtonBorderStyle.Solid);
-        }
-
-        private void bMinimize_Click(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Minimized;
-        }
-
-        private void bClose_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        public void CreateMainRootNode(string caption, MessageSeverity e)
-        {
-            ViewModel.CreateMainRootNode(caption, e);
-        }
-
-        public void CreateChildNode(string caption, MessageSeverity e)
-        {
-            ViewModel.CreateChildNode(caption, e);
-        }
-        public void CreateChildNode(string caption, MessageSeverity e, TreeNode parentNode)
-        {
-            ViewModel.CreateChildNode(caption, e, parentNode);
-        }
-
-        private void RefreshTree()
-        {
-            if(mainTreeView.InvokeRequired)
-            {
-                mainTreeView.BeginInvoke(new MethodInvoker(() =>
-                {
-                    /* Using Clone to prevent Concurrency issue with reference-types */
-                    if (mainTreeView.Nodes.Count == 0)
-                    {
-                        mainTreeView.Nodes.Add(ViewModel.RootNodes.First().Clone() as TreeNode);
-                    }
-                    else
-                    {
-                        foreach(TreeNode tn in ViewModel.RootNodes.First().Nodes)
-                        {
-                            if (!mainTreeView.Nodes[0].Nodes.Contains(tn))
-                                mainTreeView.Nodes[0].Nodes.Add(tn);
-                        }
-                        mainTreeView.Nodes[0].Nodes[mainTreeView.Nodes[0].Nodes.Count - 1].EnsureVisible();
-                    }
-                    mainTreeView.ExpandAll();
-                }));
-            }
-        }
-
-        private void RefreshLoggerTime()
-        {
-            if(timeLabel.InvokeRequired)
-            {
-                timeLabel.BeginInvoke(new MethodInvoker(() =>
-                {
-                    timeLabel.Text = string.Format("{0:00} : {1:00}", (DateTime.Now - LoggerStartTime).Minutes,
-                                                                      (DateTime.Now - LoggerStartTime).Seconds);
-                }));
-            }
-        }
-
-        private void OnViewModelSet()
-        {
-            ViewModel.RefreshTree += RefreshTree;
-            ViewModel.RefreshLoggerTime += RefreshLoggerTime;
-        }
-
-        private void bExit_Click(object sender, EventArgs e)
-        {
-            LoggerStartTime = DateTime.Now;
-            Task.Factory.StartNew(() => ViewModel.ShowExample());
-        }
+        #endregion
 
         private void bDisturb_Click(object sender, EventArgs e)
         {
-            ViewModel.HandleCancellationToken();
+            cts.Cancel();
+            viewModel.HandleCloseOperation();
         }
     }
 }

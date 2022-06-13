@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TreeLogger.Interfaces;
+using TreeLogger.ViewModels;
 
 namespace TreeLogger.Global
 {
@@ -16,7 +18,7 @@ namespace TreeLogger.Global
         /// <param name="action">Method which should be logged</param>
         public static void RunTreeLogger(string caption, Action<ILogger> action)
         {
-
+            new TreeLoggerViewModel(new TreeLoggerView()).Run(caption, action);
         }
 
         /// <summary>
@@ -26,7 +28,7 @@ namespace TreeLogger.Global
         /// <param name="action">Method which should be logged</param>
         public static void RunTreeLogger(string caption, Action<ILogger, CancellationToken> action)
         {
-
+            new TreeLoggerViewModel(new TreeLoggerView()).Run(caption, action);
         }
     }
 }

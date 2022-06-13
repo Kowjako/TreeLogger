@@ -8,5 +8,8 @@ namespace TreeLogger.Interfaces
 {
     public interface ILoggerViewModel
     {
+        void HandleBeforeOperation();
+        void HandleDoOperation();
+        void HandleCloseOperation();
     }
 }
