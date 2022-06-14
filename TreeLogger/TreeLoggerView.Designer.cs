@@ -41,15 +41,11 @@ namespace TreeLogger
             this.timeLabel = new System.Windows.Forms.Label();
             this.lblOperation = new System.Windows.Forms.Label();
             this.headerPanel = new System.Windows.Forms.Panel();
-            this.bClose = new System.Windows.Forms.PictureBox();
-            this.bMinimize = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.headerPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bClose)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bMinimize)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -68,23 +64,32 @@ namespace TreeLogger
             // 
             // bExit
             // 
+            this.bExit.BackColor = System.Drawing.Color.White;
+            this.bExit.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.bExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.bExit.Location = new System.Drawing.Point(324, 412);
             this.bExit.Name = "bExit";
             this.bExit.Size = new System.Drawing.Size(290, 32);
             this.bExit.TabIndex = 4;
             this.bExit.TabStop = false;
             this.bExit.Text = "Zamknij";
-            this.bExit.UseVisualStyleBackColor = true;
+            this.bExit.UseVisualStyleBackColor = false;
+            this.bExit.Click += new System.EventHandler(this.bExit_Click);
             // 
             // bDisturb
             // 
+            this.bDisturb.BackColor = System.Drawing.Color.Brown;
+            this.bDisturb.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.bDisturb.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.bDisturb.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bDisturb.ForeColor = System.Drawing.Color.White;
             this.bDisturb.Location = new System.Drawing.Point(10, 412);
             this.bDisturb.Name = "bDisturb";
             this.bDisturb.Size = new System.Drawing.Size(290, 32);
             this.bDisturb.TabIndex = 3;
             this.bDisturb.TabStop = false;
             this.bDisturb.Text = "Przerwij";
-            this.bDisturb.UseVisualStyleBackColor = true;
+            this.bDisturb.UseVisualStyleBackColor = false;
             this.bDisturb.Click += new System.EventHandler(this.bDisturb_Click);
             // 
             // panel2
@@ -112,9 +117,9 @@ namespace TreeLogger
             this.loggerImagesList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("loggerImagesList.ImageStream")));
             this.loggerImagesList.TransparentColor = System.Drawing.Color.Transparent;
             this.loggerImagesList.Images.SetKeyName(0, "warning.png");
-            this.loggerImagesList.Images.SetKeyName(1, "info.png");
-            this.loggerImagesList.Images.SetKeyName(2, "error.png");
-            this.loggerImagesList.Images.SetKeyName(3, "success.png");
+            this.loggerImagesList.Images.SetKeyName(1, "information.png");
+            this.loggerImagesList.Images.SetKeyName(2, "cancel.png");
+            this.loggerImagesList.Images.SetKeyName(3, "check.png");
             this.loggerImagesList.Images.SetKeyName(4, "process.png");
             // 
             // panel3
@@ -150,9 +155,7 @@ namespace TreeLogger
             // 
             // headerPanel
             // 
-            this.headerPanel.BackColor = System.Drawing.Color.Pink;
-            this.headerPanel.Controls.Add(this.bClose);
-            this.headerPanel.Controls.Add(this.bMinimize);
+            this.headerPanel.BackColor = System.Drawing.Color.Purple;
             this.headerPanel.Controls.Add(this.label1);
             this.headerPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.headerPanel.Location = new System.Drawing.Point(0, 0);
@@ -162,40 +165,16 @@ namespace TreeLogger
             this.headerPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.headerPanel_MouseDown);
             this.headerPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.headerPanel_MouseMove);
             // 
-            // bClose
-            // 
-            this.bClose.BackColor = System.Drawing.Color.Transparent;
-            this.bClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.bClose.Image = ((System.Drawing.Image)(resources.GetObject("bClose.Image")));
-            this.bClose.Location = new System.Drawing.Point(596, 2);
-            this.bClose.Name = "bClose";
-            this.bClose.Size = new System.Drawing.Size(31, 25);
-            this.bClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.bClose.TabIndex = 3;
-            this.bClose.TabStop = false;
-            // 
-            // bMinimize
-            // 
-            this.bMinimize.BackColor = System.Drawing.Color.Transparent;
-            this.bMinimize.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.bMinimize.Image = ((System.Drawing.Image)(resources.GetObject("bMinimize.Image")));
-            this.bMinimize.Location = new System.Drawing.Point(568, 2);
-            this.bMinimize.Name = "bMinimize";
-            this.bMinimize.Size = new System.Drawing.Size(31, 25);
-            this.bMinimize.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.bMinimize.TabIndex = 2;
-            this.bMinimize.TabStop = false;
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label1.ForeColor = System.Drawing.Color.Black;
+            this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(7, 6);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(133, 16);
+            this.label1.Size = new System.Drawing.Size(229, 16);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Logger by maybedot";
+            this.label1.Text = "Logger by Włodzimierz Kowjako v1.0";
             // 
             // TreeLoggerView
             // 
@@ -213,8 +192,6 @@ namespace TreeLogger
             this.panel3.PerformLayout();
             this.headerPanel.ResumeLayout(false);
             this.headerPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bClose)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bMinimize)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -224,8 +201,6 @@ namespace TreeLogger
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel headerPanel;
-        private System.Windows.Forms.PictureBox bClose;
-        private System.Windows.Forms.PictureBox bMinimize;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label timeLabel;
         private System.Windows.Forms.Label lblOperation;

@@ -13,15 +13,22 @@ namespace TreeLogger
         private Point lastPoint;
         private ILoggerViewModel viewModel;
         private CancellationTokenSource cts;
+        private Threading.Timer timer;
 
         public TreeLoggerView()
         {
             InitializeComponent();
-            ElapsedTime = new TimeSpan();
+            timer = new Threading.Timer((e) => viewModel.HandleTimerTick(), null, 1000, Timeout.Infinite);
             cts = new CancellationTokenSource();
         }
 
-        public TimeSpan ElapsedTime { get; set; }
+        public TimeSpan ElapsedTime
+        {
+            set
+            {
+                timeLabel.Text = string.Format("{0:00}:{1:00}:{2:00}", value.Hours, value.Minutes, value.Seconds);
+            }
+        }
 
         public CancellationToken CancellationToken => cts.Token;
 
@@ -50,6 +57,11 @@ namespace TreeLogger
             }
         }
 
+        private void bExit_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
         #endregion
 
         private void bDisturb_Click(object sender, EventArgs e)
@@ -62,5 +74,6 @@ namespace TreeLogger
         {
             viewModel.HandleDoOperation();
         }
+
     }
 }
