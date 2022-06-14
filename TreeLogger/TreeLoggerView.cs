@@ -18,7 +18,7 @@ namespace TreeLogger
 
         public bool IsCloseEnabled
         {
-            set => bDisturb.Enabled = false;
+            set => bDisturb.Enabled = value;
         }
 
         public bool LoggerFinished
