@@ -27,7 +27,7 @@ namespace TreeLogger.Interfaces
         /// <summary>
         /// Property to get execution time
         /// </summary>
-        TimeSpan ElapsedTime { get; set; }
+        TimeSpan ElapsedTime { set; }
 
         /// <summary>
         /// Method to show logger window

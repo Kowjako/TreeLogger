@@ -11,5 +11,6 @@ namespace TreeLogger.Interfaces
         void HandleBeforeOperation();
         void HandleDoOperation();
         void HandleCloseOperation();
+        void HandleTimerTick();
     }
 }

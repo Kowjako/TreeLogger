@@ -11,10 +11,14 @@ using TreeLogger.TreeNodes;
 
 namespace TreeLogger.ViewModels
 {
+    /// <summary>
+    /// Class to incapsulate logged message
+    /// </summary>
     internal class OperationContract
     {
         public string Message { get; private set; }
         public MessageSeverity MessageSeverity { get; private set; }
+
         public OperationContract(string message, MessageSeverity severity)
         {
             Message = message;
@@ -22,7 +26,10 @@ namespace TreeLogger.ViewModels
         }
     }
 
-    public class TreeLoggerViewModel : ILogger, ILoggerViewModel
+    /// <summary>
+    /// ViewModel of our logger
+    /// </summary>
+    internal class TreeLoggerViewModel : ILogger, ILoggerViewModel
     {
         private readonly ILoggerView _view;
         private readonly TreeView _viewTreeView;
@@ -32,6 +39,9 @@ namespace TreeLogger.ViewModels
         protected Action<ILogger, CancellationToken> CancellableOperation { get; set; }
 
         private TreeNode _currentRootNode;
+        private TreeNode _actualNode;
+
+        public string OperationName { get; private set; }
 
         private DateTime _startTime;
 
@@ -44,7 +54,7 @@ namespace TreeLogger.ViewModels
 
         #region Run methods
 
-        public void Run(string operation, Action<ILogger> action)
+        internal void Run(string operation, Action<ILogger> action)
         {
             RunMain(operation, () => DefaultOperation = action, () =>
             {
@@ -52,7 +62,7 @@ namespace TreeLogger.ViewModels
             });
         }
 
-        public void Run(string operation, Action<ILogger, CancellationToken> action)
+        internal void Run(string operation, Action<ILogger, CancellationToken> action)
         {
             RunMain(operation, () => CancellableOperation = action, () =>
             {
@@ -62,6 +72,7 @@ namespace TreeLogger.ViewModels
 
         internal void RunMain(string operationName, Action assignOperation, Action operation)
         {
+            OperationName = operationName;
             assignOperation();
             CoreOperation = operation;
             _view.ShowDialog();
@@ -87,20 +98,24 @@ namespace TreeLogger.ViewModels
             {
                 _viewTreeView.Invoke(new MethodInvoker(() =>
                 {
-                    _currentRootNode.Nodes.Add(new OperationTreeNode(contract));                   
+                    _actualNode = new OperationTreeNode(contract);
+                    _currentRootNode.Nodes.Add(_actualNode);                   
                     _currentRootNode.ExpandAll();
+                    _viewTreeView.SelectedNode = _actualNode;
                 }));
             }
         }
 
         public void HandleDoOperation()
         {
-            Thread.Sleep(100);
             Task.Run(() =>
             {
                 HandleBeforeOperation();
                 CoreOperation();
-                HandleSuccess();
+                if (!_view.CancellationToken.IsCancellationRequested)
+                {
+                    HandleSuccess();
+                }
             }, _view.CancellationToken);
         }
 
@@ -109,7 +124,7 @@ namespace TreeLogger.ViewModels
             _startTime = DateTime.Now;
             _viewTreeView.Invoke(new MethodInvoker(() =>
             {
-                _currentRootNode = new OperationRootNode("Operacja rozpoczęta");
+                _currentRootNode = new OperationRootNode(OperationName);
                 _viewTreeView.Nodes.Add(_currentRootNode);
             }));
         }
@@ -122,6 +137,11 @@ namespace TreeLogger.ViewModels
         public void HandleCloseOperation()
         {
             LogMessage("Operacja została przerwana przez użytkownika", MessageSeverity.Warning);
+        }
+
+        public void HandleTimerTick()
+        {
+            _view.ElapsedTime = DateTime.Now - _startTime;
         }
 
         #endregion
