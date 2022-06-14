@@ -14,6 +14,16 @@ namespace TreeLogger.Interfaces
     public interface ILoggerView : IDisposable
     {
         /// <summary>
+        /// If we run operation with cancellation
+        /// </summary>
+        bool IsCloseEnabled { set; }
+
+        /// <summary>
+        /// Required to stop timer for logger
+        /// </summary>
+        bool LoggerFinished { set; }
+
+        /// <summary>
         /// Represents all logger nodes
         /// </summary>
         TreeNodeCollection Nodes { get; }

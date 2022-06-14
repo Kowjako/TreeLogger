@@ -4,21 +4,34 @@ using Threading = System.Threading;
 using System.Windows.Forms;
 using TreeLogger.Interfaces;
 using System.Threading;
+using System.Timers;
 using System.Threading.Tasks;
 
 namespace TreeLogger
 {
     public partial class TreeLoggerView : Form, ILoggerView
     {
-        private Point lastPoint;
         private ILoggerViewModel viewModel;
-        private CancellationTokenSource cts;
-        private Threading.Timer timer;
+        private readonly CancellationTokenSource cts;
+
+        public System.Timers.Timer timer { get; private set; }
+
+        public bool IsCloseEnabled
+        {
+            set => bDisturb.Enabled = false;
+        }
+
+        public bool LoggerFinished
+        {
+            set => timer.Stop();
+        }
 
         public TreeLoggerView()
         {
             InitializeComponent();
-            timer = new Threading.Timer((e) => viewModel.HandleTimerTick(), null, 1000, Timeout.Infinite);
+            timer = new System.Timers.Timer(1000);
+            timer.Elapsed += (sender, e) => viewModel.HandleTimerTick();
+            timer.Start();
             cts = new CancellationTokenSource();
         }
 
@@ -26,7 +39,7 @@ namespace TreeLogger
         {
             set
             {
-                timeLabel.Text = string.Format("{0:00}:{1:00}:{2:00}", value.Hours, value.Minutes, value.Seconds);
+                timeLabel.Invoke(new MethodInvoker(() => timeLabel.Text = string.Format("{0:00}:{1:00}:{2:00}", value.Hours, value.Minutes, value.Seconds)));
             }
         }
 
@@ -41,7 +54,20 @@ namespace TreeLogger
             this.viewModel = viewModel;
         }
 
+        private void bDisturb_Click(object sender, EventArgs e)
+        {
+            cts.Cancel();
+            viewModel.HandleCloseOperation();
+        }
+
+        private void TreeLoggerView_Load(object sender, EventArgs e)
+        {
+            viewModel.HandleDoOperation();
+        }
+
         #region Common behaviuor
+
+        private Point lastPoint;
 
         private void headerPanel_MouseDown(object sender, MouseEventArgs e)
         {
@@ -63,17 +89,5 @@ namespace TreeLogger
         }
 
         #endregion
-
-        private void bDisturb_Click(object sender, EventArgs e)
-        {
-            cts.Cancel();
-            viewModel.HandleCloseOperation();
-        }
-
-        private void TreeLoggerView_Load(object sender, EventArgs e)
-        {
-            viewModel.HandleDoOperation();
-        }
-
     }
 }

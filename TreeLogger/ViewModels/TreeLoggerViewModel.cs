@@ -41,6 +41,8 @@ namespace TreeLogger.ViewModels
         private TreeNode _currentRootNode;
         private TreeNode _actualNode;
 
+        private bool _isCancellable;
+
         public string OperationName { get; private set; }
 
         private DateTime _startTime;
@@ -56,7 +58,7 @@ namespace TreeLogger.ViewModels
 
         internal void Run(string operation, Action<ILogger> action)
         {
-            RunMain(operation, () => DefaultOperation = action, () =>
+            RunMain(operation, false, () => DefaultOperation = action, () =>
             {
                 action(this);
             });
@@ -64,15 +66,16 @@ namespace TreeLogger.ViewModels
 
         internal void Run(string operation, Action<ILogger, CancellationToken> action)
         {
-            RunMain(operation, () => CancellableOperation = action, () =>
-            {
+            RunMain(operation, true, () => CancellableOperation = action, () =>
+            {               
                 action(this, _view.CancellationToken);
             });
         }
 
-        internal void RunMain(string operationName, Action assignOperation, Action operation)
+        internal void RunMain(string operationName, bool isCancellable, Action assignOperation, Action operation)
         {
             OperationName = operationName;
+            _isCancellable = isCancellable;
             assignOperation();
             CoreOperation = operation;
             _view.ShowDialog();
@@ -106,7 +109,8 @@ namespace TreeLogger.ViewModels
             }
         }
 
-        public void HandleDoOperation()
+        #pragma warning disable CS4014, CS1998
+        public async void HandleDoOperation()
         {
             Task.Run(() =>
             {
@@ -116,6 +120,7 @@ namespace TreeLogger.ViewModels
                 {
                     HandleSuccess();
                 }
+                _view.LoggerFinished = true;
             }, _view.CancellationToken);
         }
 
@@ -124,6 +129,7 @@ namespace TreeLogger.ViewModels
             _startTime = DateTime.Now;
             _viewTreeView.Invoke(new MethodInvoker(() =>
             {
+                _view.IsCloseEnabled = _isCancellable;
                 _currentRootNode = new OperationRootNode(OperationName);
                 _viewTreeView.Nodes.Add(_currentRootNode);
             }));

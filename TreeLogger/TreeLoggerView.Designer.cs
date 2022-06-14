@@ -57,9 +57,9 @@ namespace TreeLogger
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.headerPanel);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Location = new System.Drawing.Point(2, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(626, 450);
+            this.panel1.Size = new System.Drawing.Size(628, 457);
             this.panel1.TabIndex = 0;
             // 
             // bExit
@@ -130,7 +130,7 @@ namespace TreeLogger
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel3.Location = new System.Drawing.Point(0, 29);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(626, 40);
+            this.panel3.Size = new System.Drawing.Size(628, 40);
             this.panel3.TabIndex = 1;
             // 
             // timeLabel
@@ -139,9 +139,9 @@ namespace TreeLogger
             this.timeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.timeLabel.Location = new System.Drawing.Point(100, 12);
             this.timeLabel.Name = "timeLabel";
-            this.timeLabel.Size = new System.Drawing.Size(44, 15);
+            this.timeLabel.Size = new System.Drawing.Size(55, 15);
             this.timeLabel.TabIndex = 1;
-            this.timeLabel.Text = "00 : 00";
+            this.timeLabel.Text = "00:00:00";
             // 
             // lblOperation
             // 
@@ -155,12 +155,12 @@ namespace TreeLogger
             // 
             // headerPanel
             // 
-            this.headerPanel.BackColor = System.Drawing.Color.Purple;
+            this.headerPanel.BackColor = System.Drawing.Color.MediumPurple;
             this.headerPanel.Controls.Add(this.label1);
             this.headerPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.headerPanel.Location = new System.Drawing.Point(0, 0);
             this.headerPanel.Name = "headerPanel";
-            this.headerPanel.Size = new System.Drawing.Size(626, 29);
+            this.headerPanel.Size = new System.Drawing.Size(628, 29);
             this.headerPanel.TabIndex = 0;
             this.headerPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.headerPanel_MouseDown);
             this.headerPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.headerPanel_MouseMove);
@@ -180,10 +180,12 @@ namespace TreeLogger
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(626, 450);
+            this.BackColor = System.Drawing.Color.Purple;
+            this.ClientSize = new System.Drawing.Size(632, 461);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "TreeLoggerView";
+            this.Padding = new System.Windows.Forms.Padding(2);
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.TreeLoggerView_Load);
             this.panel1.ResumeLayout(false);
