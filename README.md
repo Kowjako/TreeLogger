@@ -29,6 +29,22 @@ TreeLoggerRunner.RunTreeLogger("Ksiegowanie dokumentu", (logger, token) =>
 });
 ```
 
+Wersja z uruchamianiem subprocesów
+```c#
+TreeLoggerRunner.RunTreeLogger("Ksiegowanie dokumentu handlowego", (logger, token) =>
+{
+    logger.LogMessage("Ksiegowanie naglowka");
+    logger.InitSubLogging();
+    for(int i = 0;i <10;i++)
+    {
+        if (token.IsCancellationRequested) return;
+        logger.LogMessage($"Aktualna wartosc : {i}", TreeLogger.Enums.MessageSeverity.Information);
+    }
+    logger.EndSubLogging();
+    logger.LogMessage("Ksiegowanie stopki");
+});
+```
+
 # Jak wygląda w praktyce
 ![default](https://user-images.githubusercontent.com/19534189/173612053-ffd19fda-d405-4b78-97e5-da9b5e682018.jpg)
 ![withasync](https://user-images.githubusercontent.com/19534189/173612058-c635c000-9b3d-459f-9c86-c67ea1574c94.jpg)
