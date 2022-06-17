@@ -48,4 +48,6 @@ TreeLoggerRunner.RunTreeLogger("Ksiegowanie dokumentu handlowego", (logger, toke
 # Jak wygląda w praktyce
 ![default](https://user-images.githubusercontent.com/19534189/173612053-ffd19fda-d405-4b78-97e5-da9b5e682018.jpg)
 ![withasync](https://user-images.githubusercontent.com/19534189/173612058-c635c000-9b3d-459f-9c86-c67ea1574c94.jpg)
+![Screenshot_2](https://user-images.githubusercontent.com/19534189/174396701-da4f9a12-497b-4b5e-802e-de668abcc6ba.jpg)
+
 
