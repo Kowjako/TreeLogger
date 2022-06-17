@@ -23,12 +23,16 @@ namespace TreeLoggerTestApp
         {
             TreeLoggerRunner.RunTreeLogger("Ksiegowanie dokumentu handlowego", (logger, token) =>
             {
+                logger.LogMessage("Ksiegowanie naglowka");
+                logger.InitSubLogging();
                 for(int i = 0;i <10;i++)
                 {
                     if (token.IsCancellationRequested) return;
                     logger.LogMessage($"Aktualna wartosc : {i}", TreeLogger.Enums.MessageSeverity.Information);
                     Thread.Sleep(500);
                 }
+                logger.EndSubLogging();
+                logger.LogMessage("Ksiegowanie stopki");
             });
         }
     }
