@@ -38,8 +38,8 @@ namespace TreeLogger.ViewModels
         protected Action<ILogger> DefaultOperation { get; set; }
         protected Action<ILogger, CancellationToken> CancellableOperation { get; set; }
 
-        private TreeNode _currentRootNode;
-        private TreeNode _actualNode;
+        private TreeNode _rootNode; //glowny korzen
+        private TreeNode _actualNode, _actualNodeParent; //aktualny node i jego rodzic
 
         private bool _isCancellable;
 
@@ -97,13 +97,13 @@ namespace TreeLogger.ViewModels
 
         internal void LogMessageCore(OperationContract contract)
         {
-            if (_currentRootNode != null)
+            if (_rootNode != null)
             {
                 _viewTreeView.Invoke(new MethodInvoker(() =>
                 {
                     _actualNode = new OperationTreeNode(contract);
-                    _currentRootNode.Nodes.Add(_actualNode);                   
-                    _currentRootNode.ExpandAll();
+                    _actualNodeParent.Nodes.Add(_actualNode);                   
+                    _actualNodeParent.ExpandAll();
                     _viewTreeView.SelectedNode = _actualNode;
                 }));
             }
@@ -130,9 +130,11 @@ namespace TreeLogger.ViewModels
             _viewTreeView.Invoke(new MethodInvoker(() =>
             {
                 _view.IsCloseEnabled = _isCancellable;
-                _currentRootNode = new OperationRootNode(OperationName);
-                _viewTreeView.Nodes.Add(_currentRootNode);
+                _rootNode = new OperationRootNode(OperationName);
+                _viewTreeView.Nodes.Add(_rootNode);
             }));
+
+            _actualNodeParent = _rootNode;
         }
 
         public void HandleSuccess()
@@ -148,6 +150,26 @@ namespace TreeLogger.ViewModels
         public void HandleTimerTick()
         {
             _view.ElapsedTime = DateTime.Now - _startTime;
+        }
+
+        #endregion
+
+        #region Sublogging
+
+        public void InitSubLogging()
+        {
+            _actualNodeParent = _actualNode;
+        }
+
+        public void EndSubLogging()
+        {
+            if (_actualNodeParent.Parent == null) return;
+            _actualNodeParent = _actualNodeParent.Parent;
+        }
+
+        public void ResetSubLogging()
+        {
+            _actualNodeParent = _rootNode;
         }
 
         #endregion
