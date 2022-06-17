@@ -66,7 +66,9 @@ namespace TreeLogger
             // 
             this.bExit.BackColor = System.Drawing.Color.White;
             this.bExit.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.bExit.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.bExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.bExit.Location = new System.Drawing.Point(324, 412);
             this.bExit.Name = "bExit";
             this.bExit.Size = new System.Drawing.Size(290, 32);
@@ -80,8 +82,9 @@ namespace TreeLogger
             // 
             this.bDisturb.BackColor = System.Drawing.Color.Brown;
             this.bDisturb.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.bDisturb.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.bDisturb.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.bDisturb.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bDisturb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.bDisturb.ForeColor = System.Drawing.Color.White;
             this.bDisturb.Location = new System.Drawing.Point(10, 412);
             this.bDisturb.Name = "bDisturb";
